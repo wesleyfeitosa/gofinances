@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import React from 'react';
 import { StatusBar } from 'react-native';
 import { ThemeProvider } from 'styled-components';
@@ -20,14 +21,17 @@ export default function App() {
   });
 
   if (!fontsLoaded) {
-    return <AppLoading />
+    return <AppLoading />;
   }
 
   return (
     <ThemeProvider theme={theme}>
-      <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="dark-content"
+      />
       <Dashboard />
     </ThemeProvider>
   );
 }
-
