@@ -35,6 +35,7 @@
 		"import/prefer-default-export": "off",
 		"@typescript-eslint/no-empty-interface": "off",
 		"@typescript-eslint/explicit-function-return-type": "off",
+		"react/jsx-props-no-spreading": "off",
 		"import/no-extraneous-dependencies": "off",
 		"import/extensions": [
 			"error",
