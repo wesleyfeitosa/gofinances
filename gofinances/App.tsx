@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
+import 'react-native-gesture-handler';
+
 import React from 'react';
 import { StatusBar } from 'react-native';
 import { ThemeProvider } from 'styled-components';
@@ -9,9 +11,10 @@ import {
   Poppins_500Medium,
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
+import { NavigationContainer } from '@react-navigation/native';
 
 import theme from './src/global/styles/theme';
-import { Register } from './src/screens/Register';
+import { AppRoutes } from './src/routes/app.routes';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -26,12 +29,14 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <StatusBar
-        translucent
-        backgroundColor="transparent"
-        barStyle="dark-content"
-      />
-      <Register />
+      <NavigationContainer>
+        <StatusBar
+          translucent
+          backgroundColor="transparent"
+          barStyle="dark-content"
+        />
+        <AppRoutes />
+      </NavigationContainer>
     </ThemeProvider>
   );
 }
