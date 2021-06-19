@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import 'react-native-gesture-handler';
+import 'intl';
+import 'intl/locale-data/jsonp/pt-BR';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar } from 'react-native';
 import { ThemeProvider } from 'styled-components';
 import AppLoading from 'expo-app-loading';
@@ -12,6 +14,8 @@ import {
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
 import { NavigationContainer } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import RNAsyncStorageFlipper from 'rn-async-storage-flipper';
 
 import theme from './src/global/styles/theme';
 import { AppRoutes } from './src/routes/app.routes';
@@ -22,6 +26,11 @@ export default function App() {
     Poppins_500Medium,
     Poppins_700Bold,
   });
+
+  useEffect(() => {
+    // Habilitando a lib do AsyncStorage no FLipper
+    RNAsyncStorageFlipper(AsyncStorage);
+  }, []);
 
   if (!fontsLoaded) {
     return <AppLoading />;
