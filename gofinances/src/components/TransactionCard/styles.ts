@@ -30,7 +30,6 @@ export const Footer = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-top: 19px;
 `;
 
 export const Category = styled.View`

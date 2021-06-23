@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Keyboard, Modal, TouchableWithoutFeedback, Alert } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -22,6 +22,14 @@ import {
   TransactionsTypes,
 } from './styles';
 
+interface TransactionData {
+  type: 'positive' | 'negative';
+  name: string;
+  amount: string;
+  category: string;
+  date: string;
+}
+
 interface FormData {
   name: string;
   amount: string;
@@ -31,7 +39,8 @@ const schema = Yup.object().shape({
   name: Yup.string().required('Nome é obrigatório!'),
   amount: Yup.number()
     .typeError('Informe um valor numérico!')
-    .positive('O valor não pode ser negativo!'),
+    .positive('O valor não pode ser negativo!')
+    .required('Valor é obrigatório!'),
 });
 
 const dataKey = '@gofinances:transactions';
@@ -55,7 +64,7 @@ export function Register() {
 
   const { navigate } = useNavigation();
 
-  function handleTransactionTypeSelect(type: 'up' | 'down') {
+  function handleTransactionTypeSelect(type: 'positive' | 'negative') {
     setTransactionType(type);
   }
 
@@ -69,7 +78,7 @@ export function Register() {
 
   async function handleRegister(form: FormData) {
     if (!transactionType) {
-      Alert.alert('Selecioneo tipo da transação!');
+      Alert.alert('Selecione o tipo da transação!');
       return;
     }
 
@@ -82,16 +91,14 @@ export function Register() {
       id: String(uuid.v4()),
       name: form.name,
       amount: form.amount,
-      transactionType,
+      type: transactionType,
       category: category.key,
       date: new Date(),
     };
 
     try {
       const data = await AsyncStorage.getItem(dataKey);
-      const currentData: Array<Record<string, any>> = data
-        ? JSON.parse(data)
-        : [];
+      const currentData: Array<TransactionData> = data ? JSON.parse(data) : [];
 
       const transactions = [...currentData, newTransaction];
 
@@ -106,7 +113,6 @@ export function Register() {
 
       navigate('Listagem');
     } catch (error) {
-      console.log(error);
       Alert.alert('Não foi possível salvar!');
     }
   }
@@ -138,16 +144,16 @@ export function Register() {
 
             <TransactionsTypes>
               <TransactionTypeButton
-                type="up"
+                type="positive"
                 title="Income"
-                onPress={() => handleTransactionTypeSelect('up')}
-                isActived={transactionType === 'up'}
+                onPress={() => handleTransactionTypeSelect('positive')}
+                isActived={transactionType === 'positive'}
               />
               <TransactionTypeButton
-                type="down"
+                type="negative"
                 title="Outcome"
-                onPress={() => handleTransactionTypeSelect('down')}
-                isActived={transactionType === 'down'}
+                onPress={() => handleTransactionTypeSelect('negative')}
+                isActived={transactionType === 'negative'}
               />
             </TransactionsTypes>
 
