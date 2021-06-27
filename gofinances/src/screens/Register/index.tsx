@@ -12,6 +12,7 @@ import { Button } from '../../components/Form/Button';
 import { TransactionTypeButton } from '../../components/Form/TransactionTypeButton';
 import { CategorySelectButton } from '../../components/Form/CategorySelectButton';
 import { CategorySelect } from '../CategorySelect';
+import { useAuth } from '../../hooks/auth';
 
 import {
   Container,
@@ -43,8 +44,6 @@ const schema = Yup.object().shape({
     .required('Valor é obrigatório!'),
 });
 
-const dataKey = '@gofinances:transactions';
-
 export function Register() {
   const [transactionType, setTransactionType] = useState('');
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
@@ -52,6 +51,8 @@ export function Register() {
     key: 'category',
     name: 'Categoria',
   });
+
+  const { user } = useAuth();
 
   const {
     control,
@@ -97,6 +98,7 @@ export function Register() {
     };
 
     try {
+      const dataKey = `@gofinances:transactions_user:${user.id}`;
       const data = await AsyncStorage.getItem(dataKey);
       const currentData: Array<TransactionData> = data ? JSON.parse(data) : [];
 

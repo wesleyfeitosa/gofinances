@@ -10,6 +10,7 @@ import { ActivityIndicator } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { HistoryCard } from '../../components/HistoryCard';
 import { categories } from '../../utils/categorias';
+import { useAuth } from '../../hooks/auth';
 
 import {
   Container,
@@ -42,8 +43,6 @@ interface CategoryData {
   percentFormatted: string;
 }
 
-const dataKey = '@gofinances:transactions';
-
 export function Resume() {
   const [totalByCategories, setTotalByCategories] = useState<CategoryData[]>(
     []
@@ -52,6 +51,7 @@ export function Resume() {
   const [isLoading, setIsLoading] = useState(true);
   const bottomTabBarHeight = useBottomTabBarHeight();
 
+  const { user } = useAuth();
   const theme = useTheme();
 
   function handleDateChange(action: 'next' | 'prev') {
@@ -66,6 +66,7 @@ export function Resume() {
 
   const loadData = useCallback(async () => {
     setIsLoading(true);
+    const dataKey = `@gofinances:transactions_user:${user.id}`;
     const response = await AsyncStorage.getItem(dataKey);
     const responseFormatted: Array<TransactionData> = response
       ? JSON.parse(response)
