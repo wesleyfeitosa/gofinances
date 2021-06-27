@@ -16,9 +16,13 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNAsyncStorageFlipper from 'rn-async-storage-flipper';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import Config from 'react-native-config';
 
 import theme from './src/global/styles/theme';
 import { AppRoutes } from './src/routes/app.routes';
+import { SignIn } from './src/screens/SignIn';
+import { AuthProvider } from './src/hooks/auth';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -30,6 +34,11 @@ export default function App() {
   useEffect(() => {
     // Habilitando a lib do AsyncStorage no FLipper
     RNAsyncStorageFlipper(AsyncStorage);
+
+    GoogleSignin.configure({
+      webClientId: Config.WEB_CLIENT_ID,
+      iosClientId: Config.IOS_CLIENT_ID,
+    });
   }, []);
 
   if (!fontsLoaded) {
@@ -44,7 +53,9 @@ export default function App() {
           backgroundColor="transparent"
           barStyle="dark-content"
         />
-        <AppRoutes />
+        <AuthProvider>
+          <SignIn />
+        </AuthProvider>
       </NavigationContainer>
     </ThemeProvider>
   );
