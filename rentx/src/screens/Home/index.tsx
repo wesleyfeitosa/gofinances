@@ -35,7 +35,7 @@ export function Home(): ReactElement {
       </Header>
 
       <CarList
-        data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
+        data={[1, 2, 3]}
         keyExtractor={(item) => String(item)}
         renderItem={({ item }) => <Car data={carData} />}
       />

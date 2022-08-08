@@ -12,7 +12,7 @@ export const Container = styled.View`
 export const ImageIndexes = styled.View`
   flex-direction: row;
   align-self: flex-end;
-  padding-right: 24px;
+  padding-right: 16px;
 `;
 
 export const ImageIndex = styled.View<ImageIndexProps>`
@@ -34,6 +34,6 @@ export const CarImageWrapper = styled.View`
 `;
 
 export const CarImage = styled.Image`
-  width: 280px;
-  height: 132px;
+  width: 100%;
+  height: 100%;
 `;
