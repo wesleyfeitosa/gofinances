@@ -1,9 +1,12 @@
 import React, { ReactElement } from 'react';
 import { StatusBar } from 'react-native';
 import { useTheme } from 'styled-components';
+import { StackScreenProps } from '@react-navigation/stack';
 
 import { BackButton } from '../../components/BackButton';
 import ArrowSvg from '../../assets/arrow.svg';
+import { Button } from '../../components/Button';
+import { Calendar } from '../../components/Calendar';
 
 import {
   Container,
@@ -16,11 +19,15 @@ import {
   Content,
   Footer,
 } from './styles';
-import { Button } from '../../components/Button';
-import { Calendar } from '../../components/Calendar';
 
-export function Scheduling(): ReactElement {
+type Props = StackScreenProps<RootStackParamList, 'Scheduling'>;
+
+export function Scheduling({ navigation }: Props): ReactElement {
   const theme = useTheme();
+
+  function handleConfirm() {
+    navigation.navigate('SchedulingDetails');
+  }
 
   return (
     <Container>
@@ -57,7 +64,7 @@ export function Scheduling(): ReactElement {
       </Content>
 
       <Footer>
-        <Button title="Confirmar" />
+        <Button title="Confirmar" onPress={handleConfirm} />
       </Footer>
     </Container>
   );

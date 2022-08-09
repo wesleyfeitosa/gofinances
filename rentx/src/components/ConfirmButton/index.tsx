@@ -5,12 +5,11 @@ import { Container, Title } from './styles';
 
 interface Props extends RectButtonProps {
   title: string;
-  color?: string;
 }
 
-export function Button({ title, color, ...rest }: Props): ReactElement {
+export function ConfirmButton({ title, ...rest }: Props): ReactElement {
   return (
-    <Container {...rest} color={color}>
+    <Container {...rest}>
       <Title>{title}</Title>
     </Container>
   );

@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 import { StatusBar } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
 
 import { BackButton } from '../../components/BackButton';
 import { ImageSlider } from '../../components/ImageSlider';
@@ -29,7 +30,13 @@ import {
   Footer,
 } from './styles';
 
-export function CarDetails(): ReactElement {
+type Props = StackScreenProps<RootStackParamList, 'CarDetails'>;
+
+export function CarDetails({ navigation }: Props): ReactElement {
+  function handleConfirmRental() {
+    navigation.navigate('Scheduling');
+  }
+
   return (
     <Container>
       <StatusBar
@@ -80,7 +87,10 @@ export function CarDetails(): ReactElement {
       </Content>
 
       <Footer>
-        <Button title="Confirmar" />
+        <Button
+          title="Escolher período do aluguel"
+          onPress={handleConfirmRental}
+        />
       </Footer>
     </Container>
   );

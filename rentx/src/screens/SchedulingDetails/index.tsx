@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 import { StatusBar } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { StackScreenProps } from '@react-navigation/stack';
 
 import { BackButton } from '../../components/BackButton';
 import { ImageSlider } from '../../components/ImageSlider';
@@ -41,7 +42,13 @@ import {
   RentalPriceTotal,
 } from './styles';
 
-export function SchedulingDetails(): ReactElement {
+type Props = StackScreenProps<RootStackParamList, 'SchedulingDetails'>;
+
+export function SchedulingDetails({ navigation }: Props): ReactElement {
+  function handleConfirmRental() {
+    navigation.navigate('SchedulingComplete');
+  }
+
   return (
     <Container>
       <StatusBar
@@ -120,7 +127,11 @@ export function SchedulingDetails(): ReactElement {
       </Content>
 
       <Footer>
-        <Button title="Confirmar" />
+        <Button
+          title="Alugar agora"
+          color={theme.colors.success}
+          onPress={handleConfirmRental}
+        />
       </Footer>
     </Container>
   );

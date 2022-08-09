@@ -1,13 +1,16 @@
 import React, { ReactElement } from 'react';
 import { StatusBar } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { StackScreenProps } from '@react-navigation/stack';
 
 import Logo from '../../assets/logo.svg';
 import { Car } from '../../components/Car';
 
 import { Container, Header, HeaderContent, TotalCars, CarList } from './styles';
 
-export function Home(): ReactElement {
+type Props = StackScreenProps<RootStackParamList, 'Home'>;
+
+export function Home({ navigation }: Props): ReactElement {
   const carData = {
     brand: 'AUDI',
     name: 'RS 5 Coupé',
@@ -18,6 +21,10 @@ export function Home(): ReactElement {
     thumbnail:
       'https://mediaservice.audi.com/media/live/50900/fly1400x601n1/f5f/2021.png?wid=850',
   };
+
+  function handleCarDetails() {
+    navigation.navigate('CarDetails');
+  }
 
   return (
     <Container>
@@ -37,7 +44,9 @@ export function Home(): ReactElement {
       <CarList
         data={[1, 2, 3]}
         keyExtractor={(item) => String(item)}
-        renderItem={({ item }) => <Car data={carData} />}
+        renderItem={({ item }) => (
+          <Car data={carData} onPress={handleCarDetails} />
+        )}
       />
     </Container>
   );
