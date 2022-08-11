@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { useTheme } from 'styled-components';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -6,7 +6,12 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { BackButton } from '../../components/BackButton';
 import ArrowSvg from '../../assets/arrow.svg';
 import { Button } from '../../components/Button';
-import { Calendar } from '../../components/Calendar';
+import {
+  Calendar,
+  generateInterval,
+  MarkedDateProps,
+} from '../../components/Calendar';
+import { RootStackParamList } from '../../@types/routes/root-stack-param-list';
 
 import {
   Container,
@@ -19,14 +24,40 @@ import {
   Content,
   Footer,
 } from './styles';
+import { DateData } from 'react-native-calendars';
 
 type Props = StackScreenProps<RootStackParamList, 'Scheduling'>;
 
 export function Scheduling({ navigation }: Props): ReactElement {
+  const [lastSelectedDate, setLastSelectedDate] = useState<DateData>(
+    {} as DateData
+  );
+  const [markedDates, setMarkedDates] = useState<MarkedDateProps>(
+    {} as MarkedDateProps
+  );
   const theme = useTheme();
 
   function handleConfirm() {
     navigation.navigate('SchedulingDetails');
+  }
+
+  function handleBack() {
+    navigation.goBack();
+  }
+
+  function handleChangeDate(date: DateData) {
+    let startDate = !lastSelectedDate.timestamp ? date : lastSelectedDate;
+    let endDate = date;
+
+    if (startDate.timestamp > endDate.timestamp) {
+      startDate = endDate;
+      endDate = startDate;
+    }
+
+    setLastSelectedDate(endDate);
+
+    const interval = generateInterval(startDate, endDate);
+    setMarkedDates(interval);
   }
 
   return (
@@ -38,7 +69,7 @@ export function Scheduling({ navigation }: Props): ReactElement {
       />
 
       <Header>
-        <BackButton color={theme.colors.shape} onPress={() => {}} />
+        <BackButton color={theme.colors.shape} onPress={handleBack} />
 
         <Title>
           Escolha uma {'\n'}data de início e {'\n'}fim do aluguel
@@ -60,7 +91,7 @@ export function Scheduling({ navigation }: Props): ReactElement {
       </Header>
 
       <Content>
-        <Calendar />
+        <Calendar markedDates={markedDates} onDayPress={handleChangeDate} />
       </Content>
 
       <Footer>

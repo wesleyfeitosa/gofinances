@@ -6,7 +6,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 
 import { BackButton } from '../../components/BackButton';
 import { ImageSlider } from '../../components/ImageSlider';
-import { Acessory } from '../../components/Acessory';
+import { Accessory } from '../../components/Accessory';
 import { Button } from '../../components/Button';
 import speedSvg from '../../assets/speed.svg';
 import acelerationSvg from '../../assets/acceleration.svg';
@@ -15,6 +15,7 @@ import gasolineSvg from '../../assets/gasoline.svg';
 import exchangeSvg from '../../assets/exchange.svg';
 import peopleSvg from '../../assets/people.svg';
 import theme from '../../styles/theme';
+import { RootStackParamList } from '../../@types/routes/root-stack-param-list';
 
 import {
   Container,
@@ -28,7 +29,7 @@ import {
   Rent,
   Period,
   Price,
-  Acessories,
+  Accessories,
   Footer,
   RentalPeriod,
   CalendarIcon,
@@ -82,14 +83,14 @@ export function SchedulingDetails({ navigation }: Props): ReactElement {
           </Rent>
         </Details>
 
-        <Acessories>
-          <Acessory name="380Km/h" icon={speedSvg} />
-          <Acessory name="3.2s" icon={acelerationSvg} />
-          <Acessory name="800 HP" icon={forceSvg} />
-          <Acessory name="Gasolina" icon={gasolineSvg} />
-          <Acessory name="Auto" icon={exchangeSvg} />
-          <Acessory name="2 pessoas" icon={peopleSvg} />
-        </Acessories>
+        <Accessories>
+          <Accessory name="380Km/h" icon={speedSvg} />
+          <Accessory name="3.2s" icon={acelerationSvg} />
+          <Accessory name="800 HP" icon={forceSvg} />
+          <Accessory name="Gasolina" icon={gasolineSvg} />
+          <Accessory name="Auto" icon={exchangeSvg} />
+          <Accessory name="2 pessoas" icon={peopleSvg} />
+        </Accessories>
 
         <RentalPeriod>
           <CalendarIcon>
