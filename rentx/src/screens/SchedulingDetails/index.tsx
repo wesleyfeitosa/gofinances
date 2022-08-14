@@ -42,10 +42,13 @@ import {
   RentalPriceQuota,
   RentalPriceTotal,
 } from './styles';
+import { format } from 'date-fns';
+import { addDaysToDate } from '../../utils/addDaysToDate';
 
 type Props = StackScreenProps<RootStackParamList, 'SchedulingDetails'>;
 
-export function SchedulingDetails({ navigation }: Props): ReactElement {
+export function SchedulingDetails({ navigation, route }: Props): ReactElement {
+  const { car, dates } = route.params;
   function handleConfirmRental() {
     navigation.navigate('SchedulingComplete');
   }
@@ -103,7 +106,9 @@ export function SchedulingDetails({ navigation }: Props): ReactElement {
 
           <DateInfo>
             <DateTitle>DE</DateTitle>
-            <DateValue>07/08/2022</DateValue>
+            <DateValue>
+              {format(addDaysToDate(new Date(dates[0])), 'dd/MM/yyyy')}
+            </DateValue>
           </DateInfo>
 
           <Feather
@@ -113,8 +118,13 @@ export function SchedulingDetails({ navigation }: Props): ReactElement {
           />
 
           <DateInfo>
-            <DateTitle>DE</DateTitle>
-            <DateValue>07/08/2022</DateValue>
+            <DateTitle>ATÉ</DateTitle>
+            <DateValue>
+              {format(
+                addDaysToDate(new Date(dates[dates.length - 1])),
+                'dd/MM/yyyy'
+              )}
+            </DateValue>
           </DateInfo>
         </RentalPeriod>
 

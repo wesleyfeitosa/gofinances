@@ -32,7 +32,9 @@ export function CarDetails({ navigation, route }: Props): ReactElement {
   const { car } = route.params;
 
   function handleConfirmRental() {
-    navigation.navigate('Scheduling');
+    navigation.navigate('Scheduling', {
+      car,
+    });
   }
 
   function handleBack() {
