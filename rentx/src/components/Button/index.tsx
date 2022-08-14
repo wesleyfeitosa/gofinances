@@ -6,11 +6,17 @@ import { Container, Title } from './styles';
 interface Props extends RectButtonProps {
   title: string;
   color?: string;
+  enabled?: boolean;
 }
 
-export function Button({ title, color, ...rest }: Props): ReactElement {
+export function Button({
+  title,
+  color,
+  enabled = true,
+  ...rest
+}: Props): ReactElement {
   return (
-    <Container {...rest} color={color}>
+    <Container {...rest} color={color} enabled={enabled}>
       <Title>{title}</Title>
     </Container>
   );

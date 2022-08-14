@@ -124,7 +124,11 @@ export function Scheduling({ navigation, route }: Props): ReactElement {
       </Content>
 
       <Footer>
-        <Button title="Confirmar" onPress={handleConfirm} />
+        <Button
+          title="Confirmar"
+          onPress={handleConfirm}
+          enabled={!!rentalPeriod.endFormatted}
+        />
       </Footer>
     </Container>
   );
