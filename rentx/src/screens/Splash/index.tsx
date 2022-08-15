@@ -1,29 +1,68 @@
-import React, { ReactElement } from 'react';
-import { StatusBar, Button, StyleSheet, Dimensions } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
+import React, { ReactElement, useEffect } from 'react';
+import { StatusBar } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
-  Easing,
+  interpolate,
+  Extrapolate,
+  runOnJS,
 } from 'react-native-reanimated';
+
+import { RootStackParamList } from '../../@types/routes/root-stack-param-list';
+import BrandSvg from '../../assets/brand.svg';
+import LogoSvg from '../../assets/logo.svg';
 
 import { Container } from './styles';
 
-const WIDTH = Dimensions.get('window').width;
+type Props = StackScreenProps<RootStackParamList, 'Splash'>;
 
-export function Splash(): ReactElement {
-  const animation = useSharedValue(0);
-  const animatedStyles = useAnimatedStyle(() => {
+export function Splash({ navigation }: Props): ReactElement {
+  const splashAnimation = useSharedValue(0);
+
+  const brandStyle = useAnimatedStyle(() => {
     return {
+      opacity: interpolate(splashAnimation.value, [0, 50], [1, 0]),
       transform: [
-        { translateX: withTiming(animation.value, { easing: Easing.ease }) },
+        {
+          translateX: interpolate(
+            splashAnimation.value,
+            [0, 50],
+            [0, -50],
+            Extrapolate.CLAMP
+          ),
+        },
       ],
     };
   });
 
-  function handleAnimationPosition() {
-    animation.value = Math.random() * (WIDTH - 100);
+  const logoStyle = useAnimatedStyle(() => {
+    return {
+      opacity: interpolate(splashAnimation.value, [0, 25, 50], [0, 0.3, 1]),
+      transform: [
+        {
+          translateX: interpolate(
+            splashAnimation.value,
+            [0, 50],
+            [-50, 0],
+            Extrapolate.CLAMP
+          ),
+        },
+      ],
+    };
+  });
+
+  function startApp() {
+    navigation.navigate('Home');
   }
+
+  useEffect(() => {
+    splashAnimation.value = withTiming(50, { duration: 2000 }, () => {
+      'worklet';
+      runOnJS(startApp)();
+    });
+  }, []);
 
   return (
     <Container>
@@ -33,17 +72,13 @@ export function Splash(): ReactElement {
         translucent
       />
 
-      <Animated.View style={[styles.box, animatedStyles]} />
+      <Animated.View style={[brandStyle, { position: 'absolute' }]}>
+        <BrandSvg width={80} height={50} />
+      </Animated.View>
 
-      <Button title="Mover" onPress={handleAnimationPosition} />
+      <Animated.View style={[logoStyle, { position: 'absolute' }]}>
+        <LogoSvg width={180} height={20} />
+      </Animated.View>
     </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  box: {
-    width: 100,
-    height: 100,
-    backgroundColor: 'red',
-  },
-});
