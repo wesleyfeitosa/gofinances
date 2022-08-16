@@ -9,7 +9,7 @@ import { BackButton } from '../../components/BackButton';
 import { ImageSlider } from '../../components/ImageSlider';
 import { Accessory } from '../../components/Accessory';
 import { Button } from '../../components/Button';
-import { Loading } from '../../components/Loading';
+import { LoadAnimation } from '../../components/LoadAnimation';
 import theme from '../../styles/theme';
 import { RootStackParamList } from '../../@types/routes/root-stack-param-list';
 import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
@@ -104,7 +104,7 @@ export function SchedulingDetails({ navigation, route }: Props): ReactElement {
       </Header>
 
       {loading ? (
-        <Loading />
+        <LoadAnimation />
       ) : (
         <>
           <CarImages>

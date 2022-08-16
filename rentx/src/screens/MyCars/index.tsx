@@ -7,7 +7,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { RootStackParamList } from '../../@types/routes/root-stack-param-list';
 import { BackButton } from '../../components/BackButton';
 import { Car } from '../../components/Car';
-import { Loading } from '../../components/Loading';
+import { LoadAnimation } from '../../components/LoadAnimation';
 import { CarDTO } from '../../dtos/CarDTO';
 import { api } from '../../services/api';
 
@@ -82,7 +82,7 @@ export function MyCars({ navigation }: Props): ReactElement {
       </Header>
 
       {loading ? (
-        <Loading />
+        <LoadAnimation />
       ) : (
         <Content>
           <Appointments>

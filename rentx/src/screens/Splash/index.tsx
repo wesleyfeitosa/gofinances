@@ -58,7 +58,7 @@ export function Splash({ navigation }: Props): ReactElement {
   }
 
   useEffect(() => {
-    splashAnimation.value = withTiming(50, { duration: 2000 }, () => {
+    splashAnimation.value = withTiming(50, { duration: 1000 }, () => {
       'worklet';
       runOnJS(startApp)();
     });
