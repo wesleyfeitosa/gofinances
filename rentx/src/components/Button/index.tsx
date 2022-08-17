@@ -7,17 +7,19 @@ interface Props extends RectButtonProps {
   title: string;
   color?: string;
   enabled?: boolean;
+  light?: boolean;
 }
 
 export function Button({
   title,
   color,
   enabled = true,
+  light = false,
   ...rest
 }: Props): ReactElement {
   return (
     <Container {...rest} color={color} enabled={enabled}>
-      <Title>{title}</Title>
+      <Title light={light}>{title}</Title>
     </Container>
   );
 }
