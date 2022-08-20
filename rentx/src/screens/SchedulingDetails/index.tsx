@@ -69,7 +69,11 @@ export function SchedulingDetails({ navigation, route }: Props): ReactElement {
         unavailable_dates: unavailableDates,
       });
 
-      navigation.navigate('SchedulingComplete');
+      navigation.navigate('Confirmation', {
+        title: 'Carro alugado!',
+        message: `Agora você só precisa ir \naté a concessionária da RENTX \npegar seu automóvel.`,
+        nextScreenRoute: 'Home',
+      });
     } catch (error) {
       Alert.alert('Erro ao realizar reserva.');
     } finally {

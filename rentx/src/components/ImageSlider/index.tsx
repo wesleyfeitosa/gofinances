@@ -1,5 +1,6 @@
 import React, { ReactElement, useState, useRef } from 'react';
 import { FlatList, ViewToken } from 'react-native';
+
 import { Bullet } from '../Bullet';
 
 import { Container, ImageIndexes, CarImageWrapper, CarImage } from './styles';
@@ -16,13 +17,11 @@ interface ChangeImageProps {
 export function ImageSlider({ imagesUrl }: Props): ReactElement {
   const [imageIndex, setImageIndex] = useState(0);
 
-  const indexChanged = useRef(
-    ({ viewableItems, changed }: ChangeImageProps) => {
-      if (viewableItems.length) {
-        setImageIndex(viewableItems[0].index!);
-      }
+  const indexChanged = useRef(({ viewableItems }: ChangeImageProps) => {
+    if (viewableItems.length) {
+      setImageIndex(viewableItems[0].index!);
     }
-  );
+  });
 
   return (
     <Container>

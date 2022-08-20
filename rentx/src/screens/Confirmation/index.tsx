@@ -9,13 +9,14 @@ import { RootStackParamList } from '../../@types/routes/root-stack-param-list';
 
 import { Container, Content, Title, Message, Footer } from './styles';
 
-type Props = StackScreenProps<RootStackParamList, 'SchedulingComplete'>;
+type Props = StackScreenProps<RootStackParamList, 'Confirmation'>;
 
-export function SchedulingComplete({ navigation }: Props): ReactElement {
+export function Confirmation({ navigation, route }: Props): ReactElement {
+  const { title, message, nextScreenRoute } = route.params;
   const { width } = useWindowDimensions();
 
   function handleConfirm() {
-    navigation.navigate('Home');
+    navigation.navigate(nextScreenRoute);
   }
 
   return (
@@ -31,13 +32,9 @@ export function SchedulingComplete({ navigation }: Props): ReactElement {
       <Content>
         <DoneSvg width={80} height={80} />
 
-        <Title>Carro alugado!</Title>
+        <Title>{title}</Title>
 
-        <Message>
-          Agora você só precisa ir {'\n'}
-          até a concessionária da RENTX {'\n'}
-          pegar seu automóvel.
-        </Message>
+        <Message>{message}</Message>
       </Content>
 
       <Footer>
