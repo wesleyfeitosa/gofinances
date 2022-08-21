@@ -15,7 +15,7 @@ import { BackButton } from '../../components/BackButton';
 import { ImageSlider } from '../../components/ImageSlider';
 import { Accessory } from '../../components/Accessory';
 import { Button } from '../../components/Button';
-import { RootStackParamList } from '../../@types/routes/root-stack-param-list';
+import { AppStackRoutesParamList } from '../../routes/types';
 import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
 
 import {
@@ -34,7 +34,7 @@ import {
   Footer,
 } from './styles';
 
-type Props = StackScreenProps<RootStackParamList, 'CarDetails'>;
+type Props = StackScreenProps<AppStackRoutesParamList, 'CarDetails'>;
 
 export function CarDetails({ navigation, route }: Props): ReactElement {
   const { car } = route.params;
@@ -102,8 +102,8 @@ export function CarDetails({ navigation, route }: Props): ReactElement {
           </Description>
 
           <Rent>
-            <Period>{car.rent.period}</Period>
-            <Price>R$ {car.rent.price}</Price>
+            <Period>{car.period}</Period>
+            <Price>R$ {car.price}</Price>
           </Rent>
         </Details>
 

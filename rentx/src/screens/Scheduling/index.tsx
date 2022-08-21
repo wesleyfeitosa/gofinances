@@ -14,7 +14,7 @@ import {
   generateInterval,
   MarkedDateProps,
 } from '../../components/Calendar';
-import { RootStackParamList } from '../../@types/routes/root-stack-param-list';
+import { AppStackRoutesParamList } from '../../routes/types';
 
 import {
   Container,
@@ -32,7 +32,7 @@ interface RentalPeriod {
   startFormatted: string;
   endFormatted: string;
 }
-type Props = StackScreenProps<RootStackParamList, 'Scheduling'>;
+type Props = StackScreenProps<AppStackRoutesParamList, 'Scheduling'>;
 
 export function Scheduling({ navigation, route }: Props): ReactElement {
   const { car } = route.params;

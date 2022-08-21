@@ -1,14 +1,20 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
-import { Alert, Dimensions, KeyboardAvoidingView } from 'react-native';
+import {
+  Alert,
+  Dimensions,
+  KeyboardAvoidingView,
+  StatusBar,
+} from 'react-native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { useTheme } from 'styled-components';
-import { RootStackParamList } from '../../../@types/routes/root-stack-param-list';
+import { AuthRoutesParamList } from '../../../routes/types';
 
 import { BackButton } from '../../../components/BackButton';
 import { Bullet } from '../../../components/Bullet';
 import { Button } from '../../../components/Button';
 import { PasswordInput } from '../../../components/PasswordInput';
+import { api } from '../../../services/api';
 
 import {
   Container,
@@ -20,7 +26,7 @@ import {
   FormTitle,
 } from './styles';
 
-type Props = StackScreenProps<RootStackParamList, 'SignUpSecondStep'>;
+type Props = StackScreenProps<AuthRoutesParamList, 'SignUpSecondStep'>;
 
 export function SignUpSecondStep({ navigation, route }: Props) {
   const { user } = route.params;
@@ -34,20 +40,31 @@ export function SignUpSecondStep({ navigation, route }: Props) {
     navigation.goBack();
   }
 
-  function handleRegister() {
-    if (!password || !passwordConfirm) {
-      return Alert.alert('Informe a senha e a confirmação.');
-    }
+  async function handleRegister() {
+    try {
+      if (!password || !passwordConfirm) {
+        return Alert.alert('Informe a senha e a confirmação.');
+      }
 
-    if (password !== passwordConfirm) {
-      return Alert.alert('As senhas não são iguais.');
-    }
+      if (password !== passwordConfirm) {
+        return Alert.alert('As senhas não são iguais.');
+      }
 
-    navigation.navigate('Confirmation', {
-      title: 'Conta criada!',
-      message: `Agora é só fazer login \ne aproveitar`,
-      nextScreenRoute: 'SignIn',
-    });
+      await api.post('/users', {
+        name: user.name,
+        email: user.email,
+        password,
+        driver_license: user.driverLicense,
+      });
+
+      navigation.navigate('Confirmation', {
+        title: 'Conta criada!',
+        message: `Agora é só fazer login \ne aproveitar`,
+        nextScreenRoute: 'SignIn',
+      });
+    } catch (error) {
+      Alert.alert('Opa', 'Não foi possível cadastrar');
+    }
   }
 
   return (
@@ -60,37 +77,40 @@ export function SignUpSecondStep({ navigation, route }: Props) {
       }}
     >
       <Container>
-        <>
-          <Header>
-            <BackButton onPress={handleBack} />
+        <StatusBar
+          barStyle="dark-content"
+          backgroundColor="transparent"
+          translucent
+        />
+        <Header>
+          <BackButton onPress={handleBack} />
 
-            <Steps>
-              <Bullet />
-              <Bullet active />
-            </Steps>
-          </Header>
+          <Steps>
+            <Bullet />
+            <Bullet active />
+          </Steps>
+        </Header>
 
-          <Title>Crie sua{'\n'}conta</Title>
-          <SubTitle>Faça seu cadastro de{'\n'}forma rápida e fácil</SubTitle>
+        <Title>Crie sua{'\n'}conta</Title>
+        <SubTitle>Faça seu cadastro de{'\n'}forma rápida e fácil</SubTitle>
 
-          <Form>
-            <FormTitle>2. Senha</FormTitle>
+        <Form>
+          <FormTitle>2. Senha</FormTitle>
 
-            <PasswordInput
-              iconName="lock"
-              placeholder="Senha"
-              onChangeText={setPassword}
-              value={password}
-            />
+          <PasswordInput
+            iconName="lock"
+            placeholder="Senha"
+            onChangeText={setPassword}
+            value={password}
+          />
 
-            <PasswordInput
-              iconName="lock"
-              placeholder="Repetir senha"
-              onChangeText={setPasswordConfirm}
-              value={passwordConfirm}
-            />
-          </Form>
-        </>
+          <PasswordInput
+            iconName="lock"
+            placeholder="Repetir senha"
+            onChangeText={setPasswordConfirm}
+            value={passwordConfirm}
+          />
+        </Form>
 
         <Button
           title="Cadastrar"

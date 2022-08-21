@@ -4,7 +4,7 @@ import { Alert, FlatList, StatusBar } from 'react-native';
 import { useTheme } from 'styled-components';
 import { AntDesign } from '@expo/vector-icons';
 
-import { RootStackParamList } from '../../@types/routes/root-stack-param-list';
+import { AppTabRoutesParamList } from '../../routes/types';
 import { BackButton } from '../../components/BackButton';
 import { Car } from '../../components/Car';
 import { LoadAnimation } from '../../components/LoadAnimation';
@@ -34,7 +34,7 @@ interface ScheduledCarProps {
   startDate: string;
   endDate: string;
 }
-type Props = StackScreenProps<RootStackParamList, 'MyCars'>;
+type Props = StackScreenProps<AppTabRoutesParamList, 'MyCars'>;
 
 export function MyCars({ navigation }: Props): ReactElement {
   const [scheduledCars, setscheduledCars] = useState<ScheduledCarProps[]>([]);

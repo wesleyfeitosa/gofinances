@@ -10,19 +10,21 @@ import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { useTheme } from 'styled-components';
 import * as Yup from 'yup';
 
-import { RootStackParamList } from '../../@types/routes/root-stack-param-list';
+import { AuthRoutesParamList } from '../../routes/types';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { PasswordInput } from '../../components/PasswordInput';
+import { useAuth } from '../../hooks/auth';
 
 import { Container, Header, Title, SubTitle, Form, Footer } from './styles';
 
-type Props = StackScreenProps<RootStackParamList, 'SignIn'>;
+type Props = StackScreenProps<AuthRoutesParamList, 'SignIn'>;
 
 export function SignIn({ navigation }: Props): ReactElement {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const theme = useTheme();
+  const { signIn } = useAuth();
 
   async function handleSignIn() {
     try {
@@ -34,6 +36,8 @@ export function SignIn({ navigation }: Props): ReactElement {
       });
 
       await schema.validate({ email, password });
+
+      await signIn({ email, password });
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         Alert.alert('Opa', error.message);

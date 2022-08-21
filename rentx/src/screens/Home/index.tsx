@@ -17,13 +17,13 @@ import { Car } from '../../components/Car';
 import { LoadAnimation } from '../../components/LoadAnimation';
 import { api } from '../../services/api';
 import { CarDTO } from '../../dtos/CarDTO';
-import { RootStackParamList } from '../../@types/routes/root-stack-param-list';
+import { AppStackRoutesParamList } from '../../routes/types';
 
 import { Container, Header, HeaderContent, TotalCars, CarList } from './styles';
 
 const ButtonAnimated = Animated.createAnimatedComponent(RectButton);
 
-type Props = StackScreenProps<RootStackParamList, 'Home'>;
+type Props = StackScreenProps<AppStackRoutesParamList, 'Home'>;
 
 export function Home({ navigation }: Props): ReactElement {
   const [cars, setCars] = useState<CarDTO[]>([]);
@@ -68,7 +68,7 @@ export function Home({ navigation }: Props): ReactElement {
   useEffect(() => {
     async function loadCars() {
       try {
-        const response = await api.get('/cars');
+        const response = await api.get<CarDTO[]>('/cars');
 
         setCars(response.data);
       } catch (error) {

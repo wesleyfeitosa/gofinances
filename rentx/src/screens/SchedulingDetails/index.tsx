@@ -11,7 +11,7 @@ import { Accessory } from '../../components/Accessory';
 import { Button } from '../../components/Button';
 import { LoadAnimation } from '../../components/LoadAnimation';
 import theme from '../../styles/theme';
-import { RootStackParamList } from '../../@types/routes/root-stack-param-list';
+import { AppStackRoutesParamList } from '../../routes/types';
 import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
 import { addDaysToDate } from '../../utils/addDaysToDate';
 import { api } from '../../services/api';
@@ -42,11 +42,11 @@ import {
   RentalPriceTotal,
 } from './styles';
 
-type Props = StackScreenProps<RootStackParamList, 'SchedulingDetails'>;
+type Props = StackScreenProps<AppStackRoutesParamList, 'SchedulingDetails'>;
 
 export function SchedulingDetails({ navigation, route }: Props): ReactElement {
   const { car, dates } = route.params;
-  const rentTotal = Number(dates.length * car.rent.price);
+  const rentTotal = Number(dates.length * car.price);
   const [loading, setLoading] = useState(false);
 
   async function handleConfirmRental() {
@@ -123,8 +123,8 @@ export function SchedulingDetails({ navigation, route }: Props): ReactElement {
               </Description>
 
               <Rent>
-                <Period>{car.rent.period}</Period>
-                <Price>R$ {car.rent.price}</Price>
+                <Period>{car.period}</Period>
+                <Price>R$ {car.price}</Price>
               </Rent>
             </Details>
 
@@ -168,7 +168,7 @@ export function SchedulingDetails({ navigation, route }: Props): ReactElement {
               <RentalPriceLabel>TOTAL</RentalPriceLabel>
               <RentalPriceDetails>
                 <RentalPriceQuota>
-                  R$ {car.rent.price} x{dates.length} diárias
+                  R$ {car.price} x{dates.length} diárias
                 </RentalPriceQuota>
                 <RentalPriceTotal>R$ {rentTotal}</RentalPriceTotal>
               </RentalPriceDetails>

@@ -10,13 +10,13 @@ import Animated, {
   runOnJS,
 } from 'react-native-reanimated';
 
-import { RootStackParamList } from '../../@types/routes/root-stack-param-list';
+import { AuthRoutesParamList } from '../../routes/types';
 import BrandSvg from '../../assets/brand.svg';
 import LogoSvg from '../../assets/logo.svg';
 
 import { Container } from './styles';
 
-type Props = StackScreenProps<RootStackParamList, 'Splash'>;
+type Props = StackScreenProps<AuthRoutesParamList, 'Splash'>;
 
 export function Splash({ navigation }: Props): ReactElement {
   const splashAnimation = useSharedValue(0);
@@ -54,7 +54,7 @@ export function Splash({ navigation }: Props): ReactElement {
   });
 
   function startApp() {
-    navigation.navigate('Home');
+    navigation.navigate('SignIn');
   }
 
   useEffect(() => {

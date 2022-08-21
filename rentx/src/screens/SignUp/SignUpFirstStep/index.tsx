@@ -1,11 +1,16 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
-import { Alert, Dimensions, KeyboardAvoidingView } from 'react-native';
+import {
+  Alert,
+  Dimensions,
+  KeyboardAvoidingView,
+  StatusBar,
+} from 'react-native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { useTheme } from 'styled-components';
 import * as Yup from 'yup';
 
-import { RootStackParamList } from '../../../@types/routes/root-stack-param-list';
+import { AuthRoutesParamList } from '../../../routes/types';
 import { BackButton } from '../../../components/BackButton';
 import { Bullet } from '../../../components/Bullet';
 import { Button } from '../../../components/Button';
@@ -21,7 +26,7 @@ import {
   FormTitle,
 } from './styles';
 
-type Props = StackScreenProps<RootStackParamList, 'SignUpFirstStep'>;
+type Props = StackScreenProps<AuthRoutesParamList, 'SignUpFirstStep'>;
 
 export function SignUpFirstStep({ navigation }: Props) {
   const [name, setName] = useState('');
@@ -67,46 +72,50 @@ export function SignUpFirstStep({ navigation }: Props) {
       }}
     >
       <Container>
-        <>
-          <Header>
-            <BackButton onPress={handleBack} />
+        <StatusBar
+          barStyle="dark-content"
+          backgroundColor="transparent"
+          translucent
+        />
+        <Header>
+          <BackButton onPress={handleBack} />
 
-            <Steps>
-              <Bullet active />
-              <Bullet />
-            </Steps>
-          </Header>
+          <Steps>
+            <Bullet active />
+            <Bullet />
+          </Steps>
+        </Header>
 
-          <Title>Crie sua{'\n'}conta</Title>
-          <SubTitle>Faça seu cadastro de{'\n'}forma rápida e fácil</SubTitle>
+        <Title>Crie sua{'\n'}conta</Title>
+        <SubTitle>Faça seu cadastro de{'\n'}forma rápida e fácil</SubTitle>
 
-          <Form>
-            <FormTitle>1. Dados</FormTitle>
+        <Form>
+          <FormTitle>1. Dados</FormTitle>
 
-            <Input
-              iconName="user"
-              placeholder="Nome"
-              onChangeText={setName}
-              value={name}
-            />
+          <Input
+            iconName="user"
+            placeholder="Nome"
+            onChangeText={setName}
+            value={name}
+          />
 
-            <Input
-              iconName="mail"
-              placeholder="E-mail"
-              keyboardType="email-address"
-              onChangeText={setEmail}
-              value={email}
-            />
+          <Input
+            iconName="mail"
+            placeholder="E-mail"
+            keyboardType="email-address"
+            onChangeText={setEmail}
+            value={email}
+            autoCapitalize="none"
+          />
 
-            <Input
-              iconName="credit-card"
-              placeholder="CNH"
-              keyboardType="numeric"
-              onChangeText={setDriverLicense}
-              value={driverLicense}
-            />
-          </Form>
-        </>
+          <Input
+            iconName="credit-card"
+            placeholder="CNH"
+            keyboardType="numeric"
+            onChangeText={setDriverLicense}
+            value={driverLicense}
+          />
+        </Form>
 
         <Button title="Proxímo" onPress={handleNavigateToSecondStep} />
       </Container>
