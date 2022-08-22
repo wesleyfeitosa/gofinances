@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "rentx",
-    "slug": "rentx",
+    "name": "RentX",
+    "slug": "RentX",
     "version": "1.0.0",
     "assetBundlePatterns": ["**/*"],
     "splash": {
@@ -9,7 +9,7 @@
       "backgroundColor": "#1B1B1F"
     }
   },
-  "name": "rentx",
+  "name": "RentX",
   "android": {
     "adaptiveIcon": {
       "foregroundImage": "./assets/adaptive-icon.png",
