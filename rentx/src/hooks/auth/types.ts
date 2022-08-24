@@ -2,9 +2,10 @@ import { ReactNode } from 'react';
 
 export interface UserProps {
   id: string;
+  user_id: string;
   email: string;
   name: string;
-  drive_license: string;
+  driver_license: string;
   avatar: string;
 }
 

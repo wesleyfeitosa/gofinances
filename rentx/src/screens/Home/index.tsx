@@ -79,6 +79,10 @@ export function Home({ navigation }: Props): ReactElement {
     }
 
     loadCars();
+
+    return () => {
+      setCars([]);
+    };
   }, []);
 
   useEffect(() => {
