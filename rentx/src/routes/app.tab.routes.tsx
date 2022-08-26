@@ -1,16 +1,15 @@
 import React from 'react';
+import { Platform } from 'react-native';
+import { useTheme } from 'styled-components';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { Home } from '../screens/Home';
 import { MyCars } from '../screens/MyCars';
+import { Profile } from '../screens/Profile';
 import { AppTabRoutesParamList } from './types';
 import { AppStackRoutes } from './app.stack.routes';
-
 import HomeSvg from '../assets/home-menu-icon.svg';
 import CarSvg from '../assets/car-menu-icon.svg';
 import PeopleSvg from '../assets/people-menu-icon.svg';
-import { useTheme } from 'styled-components';
-import { Platform } from 'react-native';
 
 const { Navigator, Screen } = createBottomTabNavigator<AppTabRoutesParamList>();
 
@@ -42,20 +41,20 @@ export function AppTabRoutes() {
         }}
       />
       <Screen
-        name="Profile"
-        component={Home}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <PeopleSvg width={24} height={24} fill={color} />
-          ),
-        }}
-      />
-      <Screen
         name="MyCars"
         component={MyCars}
         options={{
           tabBarIcon: ({ color }) => (
             <CarSvg width={24} height={24} fill={color} />
+          ),
+        }}
+      />
+      <Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <PeopleSvg width={24} height={24} fill={color} />
           ),
         }}
       />

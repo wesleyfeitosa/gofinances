@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { Alert, FlatList, StatusBar } from 'react-native';
 import { useTheme } from 'styled-components';
@@ -34,7 +34,7 @@ interface ScheduledCarProps {
   startDate: string;
   endDate: string;
 }
-type Props = StackScreenProps<AppTabRoutesParamList, 'MyCars'>;
+type Props = BottomTabScreenProps<AppTabRoutesParamList, 'MyCars'>;
 
 export function MyCars({ navigation }: Props): ReactElement {
   const [scheduledCars, setscheduledCars] = useState<ScheduledCarProps[]>([]);
