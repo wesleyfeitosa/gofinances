@@ -2,8 +2,8 @@ import { eachDayOfInterval, format } from 'date-fns';
 import { DateData } from 'react-native-calendars';
 
 import { MarkedDateProps } from '.';
-import theme from '../../styles/theme';
-import { addDaysToDate } from '../../utils/addDaysToDate';
+import theme from '@styles/theme';
+import { addDaysToDate } from '@utils/addDaysToDate';
 
 export function generateInterval(
   startDate: DateData,

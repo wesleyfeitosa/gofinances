@@ -10,9 +10,9 @@ import Animated, {
   runOnJS,
 } from 'react-native-reanimated';
 
-import { AuthRoutesParamList } from '../../routes/types';
-import BrandSvg from '../../assets/brand.svg';
-import LogoSvg from '../../assets/logo.svg';
+import { AuthRoutesParamList } from '@routes/types';
+import BrandSvg from '@assets/brand.svg';
+import LogoSvg from '@assets/logo.svg';
 
 import { Container } from './styles';
 

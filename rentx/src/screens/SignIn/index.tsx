@@ -10,12 +10,12 @@ import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { useTheme } from 'styled-components';
 import * as Yup from 'yup';
 
-import { AuthRoutesParamList } from '../../routes/types';
-import { Button } from '../../components/Button';
-import { Input } from '../../components/Input';
-import { PasswordInput } from '../../components/PasswordInput';
-import { useAuth } from '../../hooks/auth';
-import { database } from '../../database';
+import { AuthRoutesParamList } from '@routes/types';
+import { Button } from '@components/Button';
+import { Input } from '@components/Input';
+import { PasswordInput } from '@components/PasswordInput';
+import { useAuth } from '@hooks/auth';
+import { database } from '@database/index';
 
 import { Container, Header, Title, SubTitle, Form, Footer } from './styles';
 
@@ -59,7 +59,6 @@ export function SignIn({ navigation }: Props): ReactElement {
     async function loadData() {
       const userCollection = database.get('users');
       const users = await userCollection.query().fetch();
-      console.log(users);
     }
 
     loadData();

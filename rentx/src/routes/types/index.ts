@@ -1,6 +1,6 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
 
-import { CarDTO } from '../../dtos/CarDTO';
+import { CarDTO } from '@dtos/CarDTO';
 
 export type AuthRoutesParamList = {
   Splash: undefined;

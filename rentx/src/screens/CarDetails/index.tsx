@@ -11,12 +11,12 @@ import Animated, {
   Extrapolate,
 } from 'react-native-reanimated';
 
-import { BackButton } from '../../components/BackButton';
-import { ImageSlider } from '../../components/ImageSlider';
-import { Accessory } from '../../components/Accessory';
-import { Button } from '../../components/Button';
-import { AppStackRoutesParamList } from '../../routes/types';
-import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
+import { BackButton } from '@components/BackButton';
+import { ImageSlider } from '@components/ImageSlider';
+import { Accessory } from '@components/Accessory';
+import { Button } from '@components/Button';
+import { AppStackRoutesParamList } from '@routes/types';
+import { getAccessoryIcon } from '@utils/getAccessoryIcon';
 
 import {
   Container,

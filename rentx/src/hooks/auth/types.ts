@@ -22,6 +22,7 @@ export interface SignInCredentials {
 export interface AuthContextData {
   user: UserProps;
   signIn: (credentials: SignInCredentials) => Promise<void>;
+  signOut: () => Promise<void>;
 }
 
 export interface AuthProviderProps {

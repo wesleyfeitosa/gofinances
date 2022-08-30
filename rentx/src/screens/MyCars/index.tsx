@@ -4,12 +4,12 @@ import { Alert, FlatList, StatusBar } from 'react-native';
 import { useTheme } from 'styled-components';
 import { AntDesign } from '@expo/vector-icons';
 
-import { AppTabRoutesParamList } from '../../routes/types';
-import { BackButton } from '../../components/BackButton';
-import { Car } from '../../components/Car';
-import { LoadAnimation } from '../../components/LoadAnimation';
-import { CarDTO } from '../../dtos/CarDTO';
-import { api } from '../../services/api';
+import { AppTabRoutesParamList } from '@routes/types';
+import { BackButton } from '@components/BackButton';
+import { Car } from '@components/Car';
+import { LoadAnimation } from '@components/LoadAnimation';
+import { CarDTO } from '@dtos/CarDTO';
+import { api } from '@services/api';
 
 import {
   Container,

@@ -5,16 +5,16 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { DateData } from 'react-native-calendars';
 import { format } from 'date-fns';
 
-import { BackButton } from '../../components/BackButton';
-import ArrowSvg from '../../assets/arrow.svg';
-import { Button } from '../../components/Button';
-import { addDaysToDate } from '../../utils/addDaysToDate';
+import { BackButton } from '@components/BackButton';
+import ArrowSvg from '@assets/arrow.svg';
+import { Button } from '@components/Button';
+import { addDaysToDate } from '@utils/addDaysToDate';
 import {
   Calendar,
   generateInterval,
   MarkedDateProps,
-} from '../../components/Calendar';
-import { AppStackRoutesParamList } from '../../routes/types';
+} from '@components/Calendar';
+import { AppStackRoutesParamList } from '@routes/types';
 
 import {
   Container,

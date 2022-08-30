@@ -12,12 +12,12 @@ import Animated, {
 } from 'react-native-reanimated';
 import { RectButton, PanGestureHandler } from 'react-native-gesture-handler';
 
-import Logo from '../../assets/logo.svg';
-import { Car } from '../../components/Car';
-import { LoadAnimation } from '../../components/LoadAnimation';
-import { api } from '../../services/api';
-import { CarDTO } from '../../dtos/CarDTO';
-import { AppStackRoutesParamList } from '../../routes/types';
+import Logo from '@assets/logo.svg';
+import { Car } from '@components/Car';
+import { LoadAnimation } from '@components/LoadAnimation';
+import { api } from '@services/api';
+import { CarDTO } from '@dtos/CarDTO';
+import { AppStackRoutesParamList } from '@routes/types';
 
 import { Container, Header, HeaderContent, TotalCars, CarList } from './styles';
 

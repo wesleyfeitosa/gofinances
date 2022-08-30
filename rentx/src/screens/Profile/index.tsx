@@ -8,11 +8,11 @@ import { useTheme } from 'styled-components';
 import { Feather } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 
-import { BackButton } from '../../components/BackButton';
-import { AppTabRoutesParamList } from '../../routes/types';
-import { Input } from '../../components/Input';
-import { PasswordInput } from '../../components/PasswordInput';
-import { useAuth } from '../../hooks/auth';
+import { BackButton } from '@components/BackButton';
+import { AppTabRoutesParamList } from '@routes/types';
+import { Input } from '@components/Input';
+import { PasswordInput } from '@components/PasswordInput';
+import { useAuth } from '@hooks/auth';
 
 import {
   Container,
@@ -35,7 +35,7 @@ type OptionsAlternatives = 'dataEdit' | 'passwordEdit';
 
 export function Profile({ navigation }: Props): ReactElement {
   const theme = useTheme();
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const [option, setOption] = useState<OptionsAlternatives>('dataEdit');
   const isDataEditSelected = option === 'dataEdit';
   const isPasswordEditSelected = option === 'passwordEdit';
@@ -47,7 +47,9 @@ export function Profile({ navigation }: Props): ReactElement {
     navigation.goBack();
   }
 
-  function handleSignOut() {}
+  function handleSignOut() {
+    signOut();
+  }
 
   function handleOptionChange(optionSelected: OptionsAlternatives) {
     setOption(optionSelected);

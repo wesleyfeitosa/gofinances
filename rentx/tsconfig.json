@@ -5,7 +5,21 @@
       {
         "name": "typescript-styled-plugin"
       }
-    ]
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "@types/*": ["./src/@types/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@components/*": ["./src/components/*"],
+      "@database/*": ["./src/database/*"],
+      "@dtos/*": ["./src/dtos/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@routes/*": ["./src/routes/*"],
+      "@screens/*": ["./src/screens/*"],
+      "@services/*": ["./src/services/*"],
+      "@styles/*": ["./src/styles/*"],
+      "@utils/*": ["./src/utils/*"]
+    }
   },
   "extends": "expo/tsconfig.base"
 }

@@ -10,11 +10,11 @@ import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { useTheme } from 'styled-components';
 import * as Yup from 'yup';
 
-import { AuthRoutesParamList } from '../../../routes/types';
-import { BackButton } from '../../../components/BackButton';
-import { Bullet } from '../../../components/Bullet';
-import { Button } from '../../../components/Button';
-import { Input } from '../../../components/Input';
+import { AuthRoutesParamList } from '@routes/types';
+import { BackButton } from '@components/BackButton';
+import { Bullet } from '@components/Bullet';
+import { Button } from '@components/Button';
+import { Input } from '@components/Input';
 
 import {
   Container,

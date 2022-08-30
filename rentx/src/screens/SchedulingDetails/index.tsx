@@ -5,16 +5,16 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import { StackScreenProps } from '@react-navigation/stack';
 import { format } from 'date-fns';
 
-import { BackButton } from '../../components/BackButton';
-import { ImageSlider } from '../../components/ImageSlider';
-import { Accessory } from '../../components/Accessory';
-import { Button } from '../../components/Button';
-import { LoadAnimation } from '../../components/LoadAnimation';
-import theme from '../../styles/theme';
-import { AppStackRoutesParamList } from '../../routes/types';
-import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
-import { addDaysToDate } from '../../utils/addDaysToDate';
-import { api } from '../../services/api';
+import { BackButton } from '@components/BackButton';
+import { ImageSlider } from '@components/ImageSlider';
+import { Accessory } from '@components/Accessory';
+import { Button } from '@components/Button';
+import { LoadAnimation } from '@components/LoadAnimation';
+import theme from '@styles/theme';
+import { AppStackRoutesParamList } from '@routes/types';
+import { getAccessoryIcon } from '@utils/getAccessoryIcon';
+import { addDaysToDate } from '@utils/addDaysToDate';
+import { api } from '@services/api';
 
 import {
   Container,

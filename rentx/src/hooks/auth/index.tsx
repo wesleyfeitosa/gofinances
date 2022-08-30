@@ -1,8 +1,8 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
-import { api } from '../../services/api';
-import { database } from '../../database';
-import { User } from '../../database/model/User';
+import { api } from '@services/api';
+import { database } from '@database/index';
+import { User } from '@database/model/User';
 import {
   AuthContextData,
   AuthProviderProps,
@@ -71,8 +71,22 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  async function signOut() {
+    try {
+      const userCollection = database.get<User>('users');
+      await database.write(async () => {
+        const userSelected = await userCollection.find(data.user.id);
+        await userSelected.destroyPermanently();
+      });
+
+      setData({} as AuthState);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ user: data.user, signIn }}>
+    <AuthContext.Provider value={{ user: data.user, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );

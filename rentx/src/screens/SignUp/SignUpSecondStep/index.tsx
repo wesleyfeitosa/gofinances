@@ -8,13 +8,13 @@ import {
 } from 'react-native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { useTheme } from 'styled-components';
-import { AuthRoutesParamList } from '../../../routes/types';
 
-import { BackButton } from '../../../components/BackButton';
-import { Bullet } from '../../../components/Bullet';
-import { Button } from '../../../components/Button';
-import { PasswordInput } from '../../../components/PasswordInput';
-import { api } from '../../../services/api';
+import { AuthRoutesParamList } from '@routes/types';
+import { BackButton } from '@components/BackButton';
+import { Bullet } from '@components/Bullet';
+import { Button } from '@components/Button';
+import { PasswordInput } from '@components/PasswordInput';
+import { api } from '@services/api';
 
 import {
   Container,
