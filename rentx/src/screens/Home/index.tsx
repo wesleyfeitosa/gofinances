@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import { StatusBar, StyleSheet, BackHandler } from 'react-native';
+import { StatusBar, StyleSheet, BackHandler, Alert } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { StackScreenProps } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
@@ -11,6 +11,7 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import { RectButton, PanGestureHandler } from 'react-native-gesture-handler';
+import { useNetInfo } from '@react-native-community/netinfo';
 
 import Logo from '@assets/logo.svg';
 import { Car } from '@components/Car';
@@ -29,6 +30,7 @@ export function Home({ navigation }: Props): ReactElement {
   const [cars, setCars] = useState<CarDTO[]>([]);
   const [loading, setLoading] = useState(true);
   const theme = useTheme();
+  const netInfo = useNetInfo();
 
   const positionY = useSharedValue(0);
   const positionX = useSharedValue(0);
@@ -90,6 +92,14 @@ export function Home({ navigation }: Props): ReactElement {
       return true;
     });
   }, []);
+
+  useEffect(() => {
+    if (netInfo.isConnected) {
+      Alert.alert('Você está online');
+    } else {
+      Alert.alert('Você está offline');
+    }
+  }, [netInfo.isConnected]);
 
   return (
     <Container>

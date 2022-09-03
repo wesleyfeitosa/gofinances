@@ -2,14 +2,16 @@ import {
   BottomTabScreenProps,
   useBottomTabBarHeight,
 } from '@react-navigation/bottom-tabs';
-import { KeyboardAvoidingView } from 'react-native';
+import { Alert, KeyboardAvoidingView } from 'react-native';
 import React, { ReactElement, useState } from 'react';
 import { useTheme } from 'styled-components';
 import { Feather } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import * as Yup from 'yup';
 
 import { BackButton } from '@components/BackButton';
 import { AppTabRoutesParamList } from '@routes/types';
+import { Button } from '@components/Button';
 import { Input } from '@components/Input';
 import { PasswordInput } from '@components/PasswordInput';
 import { useAuth } from '@hooks/auth';
@@ -35,7 +37,7 @@ type OptionsAlternatives = 'dataEdit' | 'passwordEdit';
 
 export function Profile({ navigation }: Props): ReactElement {
   const theme = useTheme();
-  const { user, signOut } = useAuth();
+  const { user, signOut, updateUser } = useAuth();
   const [option, setOption] = useState<OptionsAlternatives>('dataEdit');
   const isDataEditSelected = option === 'dataEdit';
   const isPasswordEditSelected = option === 'passwordEdit';
@@ -48,7 +50,22 @@ export function Profile({ navigation }: Props): ReactElement {
   }
 
   function handleSignOut() {
-    signOut();
+    Alert.alert(
+      'Tem certeza?',
+      'Se você sair, irá precisar de internet para conectar novamente.',
+      [
+        {
+          text: 'Cancelar',
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {
+          text: 'Sair',
+          onPress: () => signOut(),
+          style: 'destructive',
+        },
+      ]
+    );
   }
 
   function handleOptionChange(optionSelected: OptionsAlternatives) {
@@ -70,6 +87,34 @@ export function Profile({ navigation }: Props): ReactElement {
     const resultImageInfo = result as ImagePicker.ImageInfo;
     if (resultImageInfo.uri) {
       setAvatar(resultImageInfo.uri);
+    }
+  }
+
+  async function handleProfileUpdate() {
+    try {
+      const schema = Yup.object().shape({
+        driverLicense: Yup.string().required('CNH é obrigatório'),
+        name: Yup.string().required('Nome é obrigatório'),
+      });
+
+      const data = { name, driverLicense };
+      await schema.validate(data);
+
+      await updateUser({
+        id: user.id,
+        user_id: user.user_id,
+        email: user.email,
+        name,
+        driver_license: driverLicense,
+        avatar,
+      });
+
+      Alert.alert('Perfil atualizado!');
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        Alert.alert('Opa', error.message);
+      }
+      Alert.alert('Não foi possível atualizar o perfil.');
     }
   }
 
@@ -154,6 +199,8 @@ export function Profile({ navigation }: Props): ReactElement {
               <PasswordInput iconName="lock" placeholder="Repetir senha" />
             </Section>
           )}
+
+          <Button title="Salvar Alterações" onPress={handleProfileUpdate} />
         </Content>
       </Container>
     </KeyboardAvoidingView>

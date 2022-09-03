@@ -8,6 +8,7 @@ import {
   AuthProviderProps,
   AuthState,
   SignInCredentials,
+  UserProps,
 } from './types';
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -85,8 +86,34 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  async function updateUser(user: UserProps) {
+    try {
+      const userCollection = database.get<User>('users');
+      await database.write(async () => {
+        const userSelected = await userCollection.find(user.id);
+        await userSelected.update((userData) => {
+          userData.name = user.name;
+          userData.driver_license = user.driver_license;
+          userData.avatar = user.avatar;
+        });
+      });
+
+      setData((oldData) => {
+        return {
+          ...oldData,
+          user,
+        };
+      });
+    } catch (error) {
+      if (__DEV__) console.log(error);
+      throw new Error(error);
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ user: data.user, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ user: data.user, signIn, signOut, updateUser }}
+    >
       {children}
     </AuthContext.Provider>
   );
