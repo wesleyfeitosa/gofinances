@@ -1,6 +1,6 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
 
-import { CarDTO } from '@dtos/CarDTO';
+import { Car as ModelCar } from '@database/model/Car';
 
 export type AuthRoutesParamList = {
   Splash: undefined;
@@ -19,9 +19,9 @@ export type AuthRoutesParamList = {
 export type AppStackRoutesParamList = {
   Splash: undefined;
   Home: undefined;
-  CarDetails: { car: CarDTO };
-  Scheduling: { car: CarDTO };
-  SchedulingDetails: { car: CarDTO; dates: string[] };
+  CarDetails: { car: ModelCar };
+  Scheduling: { car: ModelCar };
+  SchedulingDetails: { car: ModelCar; dates: string[] };
   Confirmation: {
     title: string;
     message: string;

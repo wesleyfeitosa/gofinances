@@ -10,6 +10,7 @@ export interface UserProps {
 }
 
 export interface AuthState {
+  id: string;
   token: string;
   user: UserProps;
 }

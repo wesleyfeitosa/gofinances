@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import { StatusBar, StyleSheet, BackHandler, Alert } from 'react-native';
+import { StatusBar, StyleSheet, BackHandler } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { StackScreenProps } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
@@ -11,13 +11,15 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import { RectButton, PanGestureHandler } from 'react-native-gesture-handler';
+import { synchronize } from '@nozbe/watermelondb/sync';
 import { useNetInfo } from '@react-native-community/netinfo';
 
+import { database } from '@database/index';
+import { Car as ModelCar } from '@database/model/Car';
 import Logo from '@assets/logo.svg';
 import { Car } from '@components/Car';
 import { LoadAnimation } from '@components/LoadAnimation';
 import { api } from '@services/api';
-import { CarDTO } from '@dtos/CarDTO';
 import { AppStackRoutesParamList } from '@routes/types';
 
 import { Container, Header, HeaderContent, TotalCars, CarList } from './styles';
@@ -27,7 +29,7 @@ const ButtonAnimated = Animated.createAnimatedComponent(RectButton);
 type Props = StackScreenProps<AppStackRoutesParamList, 'Home'>;
 
 export function Home({ navigation }: Props): ReactElement {
-  const [cars, setCars] = useState<CarDTO[]>([]);
+  const [cars, setCars] = useState<ModelCar[]>([]);
   const [loading, setLoading] = useState(true);
   const theme = useTheme();
   const netInfo = useNetInfo();
@@ -59,7 +61,29 @@ export function Home({ navigation }: Props): ReactElement {
     },
   });
 
-  function handleCarDetails(car: CarDTO) {
+  async function offlineSyncronize() {
+    await synchronize({
+      database,
+      pullChanges: async ({ lastPulledAt }) => {
+        const response = await api.get(
+          `cars/sync/pull?lastPulledVersion=${lastPulledAt || 0}`
+        );
+
+        const { changes, latestVersion } = response.data;
+        return { changes, timestamp: latestVersion };
+      },
+      pushChanges: async ({ changes }) => {
+        console.log(changes);
+        const user = changes.users;
+
+        if (user && user.updated.length > 0) {
+          await api.post('/users/sync', user);
+        }
+      },
+    });
+  }
+
+  function handleCarDetails(car: ModelCar) {
     navigation.navigate('CarDetails', { car });
   }
 
@@ -70,9 +94,10 @@ export function Home({ navigation }: Props): ReactElement {
   useEffect(() => {
     async function loadCars() {
       try {
-        const response = await api.get<CarDTO[]>('/cars');
+        const carCollection = database.get<ModelCar>('cars');
+        const cars = await carCollection.query().fetch();
 
-        setCars(response.data);
+        setCars(cars);
       } catch (error) {
         if (__DEV__) console.log(error);
       } finally {
@@ -94,10 +119,8 @@ export function Home({ navigation }: Props): ReactElement {
   }, []);
 
   useEffect(() => {
-    if (netInfo.isConnected) {
-      Alert.alert('Você está online');
-    } else {
-      Alert.alert('Você está offline');
+    if (netInfo.isConnected === true) {
+      offlineSyncronize();
     }
   }, [netInfo.isConnected]);
 
