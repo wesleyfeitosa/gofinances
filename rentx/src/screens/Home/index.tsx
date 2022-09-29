@@ -13,6 +13,7 @@ import Animated, {
 import { RectButton, PanGestureHandler } from 'react-native-gesture-handler';
 import { synchronize } from '@nozbe/watermelondb/sync';
 import { useNetInfo } from '@react-native-community/netinfo';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { database } from '@database/index';
 import { Car as ModelCar } from '@database/model/Car';
@@ -31,6 +32,7 @@ type Props = StackScreenProps<AppStackRoutesParamList, 'Home'>;
 export function Home({ navigation }: Props): ReactElement {
   const [cars, setCars] = useState<ModelCar[]>([]);
   const [loading, setLoading] = useState(true);
+  const [synchronizing, setSynchronizing] = useState(false);
   const theme = useTheme();
   const netInfo = useNetInfo();
 
@@ -62,6 +64,7 @@ export function Home({ navigation }: Props): ReactElement {
   });
 
   async function offlineSyncronize() {
+    setSynchronizing(true);
     await synchronize({
       database,
       pullChanges: async ({ lastPulledAt }) => {
@@ -81,6 +84,7 @@ export function Home({ navigation }: Props): ReactElement {
         }
       },
     });
+    setSynchronizing(false);
   }
 
   function handleCarDetails(car: ModelCar) {
@@ -106,10 +110,6 @@ export function Home({ navigation }: Props): ReactElement {
     }
 
     loadCars();
-
-    return () => {
-      setCars([]);
-    };
   }, []);
 
   useEffect(() => {
@@ -118,11 +118,11 @@ export function Home({ navigation }: Props): ReactElement {
     });
   }, []);
 
-  useEffect(() => {
-    if (netInfo.isConnected === true) {
+  useFocusEffect(() => {
+    if (netInfo.isConnected === true && !synchronizing) {
       offlineSyncronize();
     }
-  }, [netInfo.isConnected]);
+  });
 
   return (
     <Container>

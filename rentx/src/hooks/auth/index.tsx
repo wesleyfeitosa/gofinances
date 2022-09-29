@@ -15,6 +15,7 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
   const [data, setData] = useState<AuthState>({} as AuthState);
+  const [loading, setLoading] = useState(true);
 
   async function signIn({ email, password }: SignInCredentials) {
     try {
@@ -107,6 +108,7 @@ function AuthProvider({ children }: AuthProviderProps) {
           },
         });
       }
+      setLoading(false);
     }
 
     loadUserData();
@@ -114,7 +116,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   return (
     <AuthContext.Provider
-      value={{ user: data.user, signIn, signOut, updateUser }}
+      value={{ user: data.user, signIn, signOut, updateUser, loading }}
     >
       {children}
     </AuthContext.Provider>
