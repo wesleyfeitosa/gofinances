@@ -8,6 +8,7 @@ import { useTheme } from 'styled-components';
 import { Feather } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import * as Yup from 'yup';
+import { useNetInfo } from '@react-native-community/netinfo';
 
 import { BackButton } from '@components/BackButton';
 import { AppTabRoutesParamList } from '@routes/types';
@@ -37,6 +38,7 @@ type OptionsAlternatives = 'dataEdit' | 'passwordEdit';
 
 export function Profile({ navigation }: Props): ReactElement {
   const theme = useTheme();
+  const netInfo = useNetInfo();
   const { user, signOut, updateUser } = useAuth();
   const [option, setOption] = useState<OptionsAlternatives>('dataEdit');
   const isDataEditSelected = option === 'dataEdit';
@@ -69,7 +71,11 @@ export function Profile({ navigation }: Props): ReactElement {
   }
 
   function handleOptionChange(optionSelected: OptionsAlternatives) {
-    setOption(optionSelected);
+    if (netInfo.isConnected === false && optionSelected === 'passwordEdit') {
+      Alert.alert('Para mudar a senha, conecte-se a internet!');
+    } else {
+      setOption(optionSelected);
+    }
   }
 
   async function handleAvatarSelect() {

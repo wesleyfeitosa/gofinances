@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 import { StatusBar, StyleSheet } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
@@ -10,6 +10,8 @@ import Animated, {
   interpolate,
   Extrapolate,
 } from 'react-native-reanimated';
+import { useNetInfo } from '@react-native-community/netinfo';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { BackButton } from '@components/BackButton';
 import { ImageSlider } from '@components/ImageSlider';
@@ -17,6 +19,8 @@ import { Accessory } from '@components/Accessory';
 import { Button } from '@components/Button';
 import { AppStackRoutesParamList } from '@routes/types';
 import { getAccessoryIcon } from '@utils/getAccessoryIcon';
+import { CarDTO } from '@dtos/CarDTO';
+import { api } from '@services/api';
 
 import {
   Container,
@@ -32,14 +36,17 @@ import {
   About,
   Accessories,
   Footer,
+  OfflineInfo,
 } from './styles';
 
 type Props = StackScreenProps<AppStackRoutesParamList, 'CarDetails'>;
 
 export function CarDetails({ navigation, route }: Props): ReactElement {
   const { car } = route.params;
-  const theme = useTheme();
+  const [carUpdated, setCarUpdated] = useState<CarDTO>({} as CarDTO);
 
+  const netInfo = useNetInfo();
+  const theme = useTheme();
   const scrollY = useSharedValue(0);
 
   const scrollHandler = useAnimatedScrollHandler((event) => {
@@ -68,6 +75,19 @@ export function CarDetails({ navigation, route }: Props): ReactElement {
     navigation.goBack();
   }
 
+  useFocusEffect(
+    useCallback(() => {
+      async function fetchCarUpdated() {
+        const response = await api.get(`/cars/${car.id}`);
+        setCarUpdated(response.data);
+      }
+
+      if (netInfo.isConnected === true) {
+        fetchCarUpdated();
+      }
+    }, [setCarUpdated, netInfo])
+  );
+
   return (
     <Container>
       <StatusBar
@@ -81,7 +101,13 @@ export function CarDetails({ navigation, route }: Props): ReactElement {
         </Header>
 
         <CarImages>
-          <ImageSlider imagesUrl={car.photos} />
+          <ImageSlider
+            imagesUrl={
+              !!carUpdated.photos
+                ? carUpdated.photos
+                : [{ id: car.thumbnail, photo: car.thumbnail }]
+            }
+          />
         </CarImages>
       </Animated.View>
 
@@ -103,39 +129,37 @@ export function CarDetails({ navigation, route }: Props): ReactElement {
 
           <Rent>
             <Period>{car.period}</Period>
-            <Price>R$ {car.price}</Price>
+            <Price>R$ {netInfo.isConnected === true ? car.price : '...'}</Price>
           </Rent>
         </Details>
 
-        <Accessories>
-          {car.accessories.map((accessory) => (
-            <Accessory
-              key={accessory.type}
-              name={accessory.name}
-              icon={getAccessoryIcon(accessory.type)}
-            />
-          ))}
-        </Accessories>
+        {!!carUpdated.accessories && (
+          <Accessories>
+            {carUpdated.accessories.map((accessory) => (
+              <Accessory
+                key={accessory.type}
+                name={accessory.name}
+                icon={getAccessoryIcon(accessory.type)}
+              />
+            ))}
+          </Accessories>
+        )}
 
-        <About>
-          {car.about}
-          {`\n`}
-          {car.about}
-          {`\n`}
-          {car.about}
-          {`\n`}
-          {car.about}
-          {`\n`}
-          {car.about}
-          {`\n`}
-        </About>
+        <About>{car.about}</About>
       </Animated.ScrollView>
 
       <Footer>
         <Button
           title="Escolher período do aluguel"
           onPress={handleConfirmRental}
+          enabled={netInfo.isConnected === true}
         />
+
+        {netInfo.isConnected === false && (
+          <OfflineInfo>
+            Conecte-se a Internet para ver mais detalhes e agendar seu carro.
+          </OfflineInfo>
+        )}
       </Footer>
     </Container>
   );

@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 import { StatusBar, StyleSheet, BackHandler } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -98,6 +98,7 @@ export function Home({ navigation }: Props): ReactElement {
   useEffect(() => {
     async function loadCars() {
       try {
+        console.log('loadCars');
         const carCollection = database.get<ModelCar>('cars');
         const cars = await carCollection.query().fetch();
 
@@ -118,11 +119,13 @@ export function Home({ navigation }: Props): ReactElement {
     });
   }, []);
 
-  useFocusEffect(() => {
-    if (netInfo.isConnected === true && !synchronizing) {
-      offlineSyncronize();
-    }
-  });
+  useFocusEffect(
+    useCallback(() => {
+      if (netInfo.isConnected === true && !synchronizing) {
+        offlineSyncronize();
+      }
+    }, [])
+  );
 
   return (
     <Container>
