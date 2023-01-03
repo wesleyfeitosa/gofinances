@@ -4,7 +4,7 @@ import { View, Text, TextInput, Button } from 'react-native';
 export function Profile() {
   return (
     <View>
-      <Text testID="text-title">Profile</Text>
+      <Text testID="text-title">Perfil</Text>
 
       <TextInput
         testID="input-name"
@@ -18,7 +18,12 @@ export function Profile() {
         value="Feitosa"
       />
 
-      <Button title="Salvar" onPress={() => {}} />
+      <Button
+        title="Salvar"
+        onPress={() => {
+          // todo
+        }}
+      />
     </View>
   );
 }
