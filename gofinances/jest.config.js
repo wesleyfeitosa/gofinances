@@ -7,6 +7,6 @@ module.exports = {
   setupFilesAfterEnv: [
     '@testing-library/jest-native/extend-expect',
     'jest-styled-components',
-    './jest.setup.js',
+    './node_modules/@react-native-google-signin/google-signin/jest/build/setup.js',
   ],
 };
