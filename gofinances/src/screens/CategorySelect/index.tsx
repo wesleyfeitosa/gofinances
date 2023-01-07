@@ -36,7 +36,7 @@ export function CategorySelect({
   }
 
   return (
-    <Container>
+    <Container testID="category-select">
       <Header>
         <Title>Categoria</Title>
       </Header>
@@ -45,8 +45,9 @@ export function CategorySelect({
         data={categories}
         style={{ flex: 1, width: '100%' }}
         keyExtractor={(item) => item.key}
-        renderItem={({ item }) => (
+        renderItem={({ item, index }) => (
           <Category
+            testID={`category-${index}`}
             onPress={() => handleCategorySelect(item)}
             isActived={category.key === item.key}
           >
@@ -58,7 +59,11 @@ export function CategorySelect({
       />
 
       <Footer>
-        <Button onPress={closeSelectCategory} title="Selecionar" />
+        <Button
+          testID="button-select"
+          onPress={closeSelectCategory}
+          title="Selecionar"
+        />
       </Footer>
     </Container>
   );

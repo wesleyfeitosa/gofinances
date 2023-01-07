@@ -13,8 +13,8 @@ import {Button} from '../components/Button';
 import {SkillCard} from '../components/SkillCard';
 
 interface SkillData {
-  id: string,
-  name: string,
+  id: string;
+  name: string;
 }
 
 export function Home() {
@@ -23,22 +23,13 @@ export function Home() {
   const [greeting, setGreeting] = useState('');
 
   function handleAddNewSkill() {
-    showLog();
-
-    const data = {
-      id: String(new Date().getTime()),
-      name: newSkill,
-    }
+    const data = {id: String(new Date().getTime()), name: newSkill};
     setMySkills(oldState => [...oldState, data]);
     setNewSkill('');
   }
 
   function handleRemoveSkill(id: string) {
     setMySkills(oldState => oldState.filter(skill => skill.id !== id));
-  }
-
-  function showLog() {
-    console.log('Passou por aqui!');
   }
 
   useEffect(() => {
@@ -67,7 +58,7 @@ export function Home() {
         onChangeText={setNewSkill}
       />
 
-      <Button onPress={handleAddNewSkill} title="Add"  />
+      <Button onPress={handleAddNewSkill} title="Add" />
 
       <Text style={[styles.title, {marginTop: 50, marginBottom: 20}]}>
         My skills
@@ -75,8 +66,13 @@ export function Home() {
 
       <FlatList
         data={mySkills}
-        keyExtractor={(item) => item.id}
-        renderItem={({item}) => <SkillCard skill={item.name} onPress={() => handleRemoveSkill(item.id)} />}
+        keyExtractor={item => item.id}
+        renderItem={({item}) => (
+          <SkillCard
+            skill={item.name}
+            onPress={() => handleRemoveSkill(item.id)}
+          />
+        )}
       />
     </View>
   );
@@ -89,11 +85,7 @@ const styles = StyleSheet.create({
     paddingVertical: 70,
     paddingHorizontal: 30,
   },
-  title: {
-    color: '#fff',
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
+  title: {color: '#fff', fontSize: 24, fontWeight: 'bold'},
   input: {
     backgroundColor: '#1f1e25',
     color: '#fff',
@@ -102,7 +94,5 @@ const styles = StyleSheet.create({
     marginTop: 30,
     borderRadius: 7,
   },
-  greetings: {
-    color: '#fff',
-  },
+  greetings: {color: '#fff'},
 });
