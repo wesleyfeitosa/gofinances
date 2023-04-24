@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "gofinances",
+    "slug": "gofinances",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#5636D3"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.wesleyfeitosa.gofinances"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#5636D3"
+      },
+      "package": "com.wesleyfeitosa.gofinances"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "31799895-1e8d-4ec1-a3eb-ae17a1c1a7c6"
+      }
+    },
+    "owner": "wesleyfeitosa"
+  }
+}
